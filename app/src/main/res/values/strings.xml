@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TsneGallery</string>
+    <string name="tagButton">Tag</string>
+    <string name="galleryButton">Gallery</string>
+    <string name="tsneButton">Tsne</string>
+    <string name="chooseButton">Choose</string>
+    <string name="resetButton">Reset</string>
+    <string name="resultText">Results:</string>
+    <string name="frameText">Frame:</string>
+    <string name="inferenceTimeText">Inference Time:</string>
+    <string name="resultKey">object_%d:</string>
+</resources>
