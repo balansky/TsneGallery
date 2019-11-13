@@ -2,6 +2,7 @@ package com.example.tsnegallery.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.RectF;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -12,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tsnegallery.R;
 
+import java.util.ArrayList;
+
 
 public class TagResultAdapter extends RecyclerView.Adapter<TagResultAdapter.ResultHolder> {
 
-    private String[] fakeData = {"person", "dog", "cat", "elephant", "banana", "apple", "mamam"};
+    private ArrayList<String> mData;
     private static Context contxt;
 
     public static class ResultHolder extends RecyclerView.ViewHolder{
@@ -31,7 +34,21 @@ public class TagResultAdapter extends RecyclerView.Adapter<TagResultAdapter.Resu
     }
 
     public TagResultAdapter(Context ctxt){
+
         contxt = ctxt;
+        mData = new ArrayList<String>();
+    }
+
+    public void addItem(String r){
+        int len = mData.size();
+        mData.add(r);
+        notifyItemInserted(len);
+    }
+
+    public void removeAll(){
+        int len = mData.size();
+        mData.clear();
+        notifyItemRangeChanged(0, len);
     }
 
 
@@ -48,11 +65,11 @@ public class TagResultAdapter extends RecyclerView.Adapter<TagResultAdapter.Resu
     public void onBindViewHolder(@NonNull ResultHolder holder, int position) {
         Resources res = contxt.getResources();
         holder.keyView.setText(String.format(res.getString(R.string.resultKey), position));
-        holder.valueView.setText(fakeData[position]);
+        holder.valueView.setText(mData.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return fakeData.length;
+        return mData.size();
     }
 }

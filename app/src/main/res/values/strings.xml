@@ -5,8 +5,8 @@
     <string name="tsneButton">Tsne</string>
     <string name="chooseButton">Choose</string>
     <string name="resetButton">Reset</string>
-    <string name="resultText">Results:</string>
+    <string name="resultText">Results</string>
     <string name="frameText">Frame:</string>
-    <string name="inferenceTimeText">Inference Time:</string>
+    <string name="inferenceTimeText">(0 ms):</string>
     <string name="resultKey">object_%d:</string>
 </resources>
