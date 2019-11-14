@@ -11,34 +11,46 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.example.tsnegallery.adapters.TagResultAdapter;
 import com.example.tsnegallery.tflite.ObjectDetectionModel;
+import android.util.Log;
+import android.widget.TextView;
+
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.List;
 
+
 public class TagActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TF_OD_API_MODEL_FILE = "detect.tflite";
+    private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
+    private static final int TF_OD_API_INPUT_SIZE = 300;
+    private static final boolean TF_OD_API_IS_QUANTIZED = true;
     private int PICK_IMAGE_REQUEST = 1;
     private RecyclerView recyclerView;
     private TagResultAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ImageView imageHolder;
+    private TextView inferenceTime;
     private ObjectDetectionModel detector;
     private Handler handler;
     private HandlerThread handlerThread;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected synchronized void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerResults);
+        recyclerView = findViewById(R.id.recyclerResults);
 //        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -48,29 +60,42 @@ public class TagActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
 
         imageHolder = findViewById(R.id.tagImageView);
+        inferenceTime = findViewById(R.id.inferenceTime);
+
+        try{
+
+            detector = new ObjectDetectionModel(getAssets(), TF_OD_API_MODEL_FILE,
+                    TF_OD_API_LABELS_FILE, TF_OD_API_INPUT_SIZE,  TF_OD_API_IS_QUANTIZED);
+        }catch(final IOException e){
+            Log.e(TAG, e.toString());
+            finish();
+        }
+
+        handlerThread = new HandlerThread("inference");
+        handlerThread.start();
+        handler = new Handler(handlerThread.getLooper());
 
     }
 
     @Override
     protected synchronized void onResume() {
         super.onResume();
-
-        handlerThread = new HandlerThread("inference");
-        handlerThread.start();
-        handler = new Handler(handlerThread.getLooper());
     }
 
     @Override
-    public synchronized void onPause() {
+    public synchronized void onDestroy() {
+
+        handlerThread.quitSafely();
 
         try {
             handlerThread.join();
             handlerThread = null;
             handler = null;
         } catch (final InterruptedException e) {
+            Log.e(TAG, e.toString());
         }
 
-        super.onPause();
+        super.onDestroy();
     }
 
     protected synchronized void runInBackground(final Runnable r) {
@@ -92,9 +117,9 @@ public class TagActivity extends AppCompatActivity {
         ImageView tview = findViewById(R.id.tagImageView);
         tview.setImageResource(R.color.colorPrimaryDark);
         mAdapter.removeAll();
+        inferenceTime.setText("0 ms");
 
     }
-
 
 
     @Override
@@ -107,14 +132,29 @@ public class TagActivity extends AppCompatActivity {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-//                final List<Classifier.Recognition> results = detector.recognizeImage(croppedBitmap);
-                mAdapter.removeAll();
-                for(int i = 0; i < 3; i++){
-                    mAdapter.addItem("" + i);
-                }
+                imageHolder.setImageBitmap(bitmap);
 
-                ImageView imageView = findViewById(R.id.tagImageView);
-                imageView.setImageBitmap(bitmap);
+                runInBackground(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                final long startTime = SystemClock.uptimeMillis();
+                                List<ObjectDetectionModel.Recognition> results =
+                                        detector.recognizeImage(bitmap);
+                                long lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
+                                runOnUiThread(
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mAdapter.updateResults(results);
+                                                inferenceTime.setText(lastProcessingTimeMs + " ms");
+                                            }
+                                        }
+                                );
+                            }
+                        }
+                );
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

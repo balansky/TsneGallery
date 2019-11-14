@@ -30,14 +30,20 @@ android {
         abortOnError false
     }
 
+    sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jni/'] } }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+        }
+    }
 }
 
 
 // import DownloadModels task
 project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
-project.ext.TMP_DIR   = project.buildDir.toString() + '/downloads'
+project.ext.TMP_DIR = project.buildDir.toString() + '/downloads'
 
-apply from:'download_model.gradle'
+apply from: 'download_model.gradle'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

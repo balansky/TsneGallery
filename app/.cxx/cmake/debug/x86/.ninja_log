@@ -1,0 +1,11 @@
+# ninja log v5
+0	348	0	CMakeFiles/tsne.dir/tsne-lib.cpp.o	995e5e7b7b8b74e3
+348	385	0	/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/debug/obj/x86/libtsne.so	d359043bfe78490a
+0	194	0	CMakeFiles/tsne.dir/tsne-lib.cpp.o	995e5e7b7b8b74e3
+194	246	0	/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/debug/obj/x86/libtsne.so	d359043bfe78490a
+0	214	0	CMakeFiles/tsne.dir/tsne-lib.cpp.o	995e5e7b7b8b74e3
+214	228	0	/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/debug/obj/x86/libtsne.so	d359043bfe78490a
+0	220	0	CMakeFiles/tsne.dir/tsne-lib.cpp.o	995e5e7b7b8b74e3
+220	234	0	/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/debug/obj/x86/libtsne.so	d359043bfe78490a
+0	202	0	CMakeFiles/tsne.dir/tsne-lib.cpp.o	995e5e7b7b8b74e3
+202	217	0	/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/debug/obj/x86/libtsne.so	d359043bfe78490a

@@ -55,6 +55,7 @@
         android:id="@+id/tsneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="openTsne"
         android:text="@string/tsneButton"
         app:layout_constraintBottom_toBottomOf="@+id/galleryButton"
         app:layout_constraintEnd_toEndOf="parent"

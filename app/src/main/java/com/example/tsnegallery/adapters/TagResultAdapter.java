@@ -12,14 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tsnegallery.R;
+import com.example.tsnegallery.tflite.ObjectDetectionModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TagResultAdapter extends RecyclerView.Adapter<TagResultAdapter.ResultHolder> {
 
-    private ArrayList<String> mData;
-    private static Context contxt;
+    private ArrayList<ObjectDetectionModel.Recognition> mData;
+    private Context contxt;
 
     public static class ResultHolder extends RecyclerView.ViewHolder{
 
@@ -36,19 +38,22 @@ public class TagResultAdapter extends RecyclerView.Adapter<TagResultAdapter.Resu
     public TagResultAdapter(Context ctxt){
 
         contxt = ctxt;
-        mData = new ArrayList<String>();
-    }
-
-    public void addItem(String r){
-        int len = mData.size();
-        mData.add(r);
-        notifyItemInserted(len);
+        mData = new ArrayList<ObjectDetectionModel.Recognition>();
     }
 
     public void removeAll(){
-        int len = mData.size();
+        int nOld = mData.size();
         mData.clear();
-        notifyItemRangeChanged(0, len);
+        notifyItemRangeRemoved(0, nOld);
+    }
+
+
+    public void updateResults(List<ObjectDetectionModel.Recognition> results){
+        int nOld = mData.size();
+        mData.clear();
+        notifyItemRangeRemoved(0, nOld);
+        mData.addAll(results);
+        notifyItemRangeChanged(0, mData.size());
     }
 
 
@@ -64,8 +69,9 @@ public class TagResultAdapter extends RecyclerView.Adapter<TagResultAdapter.Resu
     @Override
     public void onBindViewHolder(@NonNull ResultHolder holder, int position) {
         Resources res = contxt.getResources();
-        holder.keyView.setText(String.format(res.getString(R.string.resultKey), position));
-        holder.valueView.setText(mData.get(position));
+        ObjectDetectionModel.Recognition r = mData.get(position);
+        holder.keyView.setText(r.getTitle());
+        holder.valueView.setText(String.format(".2%f", r.getConfidence()));
     }
 
     @Override

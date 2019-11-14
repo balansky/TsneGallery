@@ -1,0 +1,10 @@
+[1/2] Building CXX object CMakeFiles/tsne.dir/tsne-lib.cpp.o
+/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/src/main/cpp/tsne-lib.cpp:67:5: warning: 'delete' applied to a pointer that was allocated with 'new[]'; did you mean 'delete[]'? [-Wmismatched-new-delete]
+    delete r_y;
+    ^
+          []
+/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/src/main/cpp/tsne-lib.cpp:53:18: note: allocated with 'new[]' here
+    float *r_y = new float[n * 2];
+                 ^
+1 warning generated.
+[2/2] Linking CXX shared library /home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/debug/obj/x86/libtsne.so

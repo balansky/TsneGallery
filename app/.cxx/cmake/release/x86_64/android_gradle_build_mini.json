@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/home/andy/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86_64 --target clean"
+  ],
+  "libraries": {
+    "tsne-Release-x86_64": {
+      "artifactName": "tsne",
+      "buildCommand": "/home/andy/Android/Sdk/cmake/3.6.4111459/bin/cmake --build /home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86_64 --target tsne",
+      "abi": "x86_64",
+      "output": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/release/obj/x86_64/libtsne.so"
+    }
+  }
+}

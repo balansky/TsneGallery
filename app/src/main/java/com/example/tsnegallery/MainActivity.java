@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openTsne(View view){
-
+        Intent intent = new Intent(this, TsneActivity.class);
+        startActivity(intent);
     }
 }

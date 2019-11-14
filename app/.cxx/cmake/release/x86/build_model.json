@@ -1,0 +1,70 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery",
+      "sdkFolder": "/home/andy/Android/Sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates",
+      "gradleModulePathName": ":app",
+      "moduleRootFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app",
+      "makeFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/src/main/cpp/CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/.cxx",
+      "cxxFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx",
+      "ndkFolder": "/home/andy/Android/Sdk/ndk/20.1.5948944",
+      "ndkVersion": "20.1.5948944",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [],
+    "cFlagList": [],
+    "cppFlagsList": [],
+    "variantName": "release",
+    "soFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/release/lib",
+    "objFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/release/obj",
+    "jsonFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release",
+    "gradleBuildOutputFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release",
+    "isDebuggableEnabled": false,
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
+    ],
+    "buildTargetSet": []
+  },
+  "abi": "X86",
+  "abiPlatformVersion": 26,
+  "cxxBuildFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86",
+  "jsonFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86/android_gradle_build.json",
+  "gradleBuildOutputFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release/x86",
+  "objFolder": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/build/intermediates/cmake/release/obj/x86",
+  "buildCommandFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86/build_command.txt",
+  "buildOutputFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86/build_output.txt",
+  "modelOutputFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86/build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release/x86/CMakeLists.txt",
+    "toolchainWrapperFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release/x86/android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release/x86/build_generation_state.json",
+    "cacheKeyFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release/x86/compiler_cache_key.json",
+    "compilerCacheUseFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release/x86/compiler_cache_use.json",
+    "compilerCacheWriteFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release/x86/compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cxx/release/x86/compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86/json_generation_record.json",
+  "compileCommandsJsonFile": "/home/andy/Projects/AndroidStudioProjects/TsneGallery/app/.cxx/cmake/release/x86/compile_commands.json"
+}

@@ -32,11 +32,11 @@ public class ObjectDetectionModel {
     private static final float IMAGE_STD = 128.0f;
     // Number of threads in the java app
     private static final int NUM_THREADS = 4;
+    private static final int NUM_DETECTIONS = 10;
     private boolean isModelQuantized;
     // Config values.
     private int inputSize;
 
-    private int maxDetections;
     // Pre-allocated buffers.
     private Vector<String> labels = new Vector<String>();
     private int[] intValues;
@@ -59,7 +59,6 @@ public class ObjectDetectionModel {
 
     public ObjectDetectionModel(final AssetManager assetManager, final String modelFilename,
                                 final String labelFilename, final int inputSize,
-                                final int maxDetections,
                                 final boolean isQuantized) throws IOException{
         String actualFilename = labelFilename.split("file:///android_asset/")[1];
         InputStream labelsInput = assetManager.open(actualFilename);
@@ -79,7 +78,6 @@ public class ObjectDetectionModel {
             throw new RuntimeException(e);
         }
         this.isModelQuantized = isQuantized;
-        this.maxDetections = maxDetections;
 //        int numBytesPerChannel =
         int numBytesPerChannel;
         if (isQuantized) {
@@ -94,9 +92,9 @@ public class ObjectDetectionModel {
         intValues = new int[inputSize * inputSize];
 
         this.tfLite.setNumThreads(NUM_THREADS);
-        this.outputLocations = new float[1][maxDetections][4];
-        this.outputClasses = new float[1][maxDetections];
-        this.outputScores = new float[1][maxDetections];
+        this.outputLocations = new float[1][NUM_DETECTIONS][4];
+        this.outputClasses = new float[1][NUM_DETECTIONS];
+        this.outputScores = new float[1][NUM_DETECTIONS];
         this.numDetections = new float[1];
     }
 
@@ -186,22 +184,22 @@ public class ObjectDetectionModel {
         int srcWidth = bitmap.getWidth();
 
         int maxSize = Math.max(srcHeight, srcWidth);
-        float scale = inputSize / maxSize;
+        float scale = (float)inputSize / (float)maxSize;
 
-        int scaledHeight = (int) scale * srcHeight;
-        int scaledWidth = (int) scale * srcWidth;
+        int scaledHeight = (int) (scale * srcHeight);
+        int scaledWidth = (int) (scale * srcWidth);
 
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, false);
 
         Bitmap bmpWithBorder = Bitmap.createBitmap(inputSize, inputSize,  bitmap.getConfig());
         Canvas canvas = new Canvas(bmpWithBorder);
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.BLACK);
         canvas.drawBitmap(scaledBitmap, (inputSize - scaledHeight)/2, (inputSize - scaledWidth)/2, null);
 
         Trace.beginSection("preprocessBitmap");
         // Preprocess the image data from 0-255 int to normalized float based
         // on the provided parameters.
-        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        bmpWithBorder.getPixels(intValues, 0, bmpWithBorder.getWidth(), 0, 0, bmpWithBorder.getWidth(), bmpWithBorder.getHeight());
 
         imgData.rewind();
         for (int i = 0; i < inputSize; ++i) {
@@ -228,35 +226,9 @@ public class ObjectDetectionModel {
         Trace.beginSection("recognizeImage");
         preprocessImage(bitmap);
 
-//        Trace.beginSection("preprocessBitmap");
-//        // Preprocess the image data from 0-255 int to normalized float based
-//        // on the provided parameters.
-//        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-//
-//        imgData.rewind();
-//        for (int i = 0; i < inputSize; ++i) {
-//            for (int j = 0; j < inputSize; ++j) {
-//                int pixelValue = intValues[i * inputSize + j];
-//                if (isModelQuantized) {
-//                    // Quantized model
-//                    imgData.put((byte) ((pixelValue >> 16) & 0xFF));
-//                    imgData.put((byte) ((pixelValue >> 8) & 0xFF));
-//                    imgData.put((byte) (pixelValue & 0xFF));
-//                } else { // Float model
-//                    imgData.putFloat((((pixelValue >> 16) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
-//                    imgData.putFloat((((pixelValue >> 8) & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
-//                    imgData.putFloat(((pixelValue & 0xFF) - IMAGE_MEAN) / IMAGE_STD);
-//                }
-//            }
-//        }
-//        Trace.endSection(); // preprocessBitmap
 
         // Copy the input data into TensorFlow.
         Trace.beginSection("feed");
-        outputLocations = new float[1][maxDetections][4];
-        outputClasses = new float[1][maxDetections];
-        outputScores = new float[1][maxDetections];
-        numDetections = new float[1];
 
         Object[] inputArray = {imgData};
         Map<Integer, Object> outputMap = new HashMap<>();
@@ -273,8 +245,8 @@ public class ObjectDetectionModel {
 
         // Show the best detections.
         // after scaling them back to the input size.
-        final ArrayList<Recognition> recognitions = new ArrayList<>(maxDetections);
-        for (int i = 0; i < maxDetections; ++i) {
+        final ArrayList<Recognition> recognitions = new ArrayList<>(NUM_DETECTIONS);
+        for (int i = 0; i < NUM_DETECTIONS; ++i) {
             final RectF detection =
                     new RectF(
                             outputLocations[0][i][1] * inputSize,
