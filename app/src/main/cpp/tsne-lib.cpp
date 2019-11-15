@@ -20,9 +20,6 @@ extern "C" JNIEXPORT void JNICALL
 Java_com_example_tsnegallery_TsneActivity_initTsneJNI(
         JNIEnv *env, jobject obj, jfloatArray x, jfloatArray y){
 
-    c = new Cell();
-    c->ss = 100;
-
     x_arr = (jfloatArray)env->NewGlobalRef((jobject)x);
     y_arr = (jfloatArray)env->NewGlobalRef((jobject)y);
 
